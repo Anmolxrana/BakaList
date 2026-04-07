@@ -1,12 +1,11 @@
-<img src="/client/public/Banner.gif" alt="banner image gif" />
 <div align="center">
   <img src="/client/public/logo.gif" alt="enimi logo gif version" />
 </div>
 <h1 align="center">
-  Welcome to Enimi
+  Welcome to BakaLIst
 </h1>
 <p align="center">
-  Enimi is an anime streaming platform created to watch anime without any ads and popups.
+  BakaList is an anime streaming platform created to watch anime without any ads and popups.
   <br />
   (created this application to sharpen my skill into mern stack 🥲)
 </p>
@@ -28,8 +27,8 @@
   <img src="https://img.shields.io/badge/Tanstack-query-red" alt="react badge" />
 </p>
 
-## Why I Created Enimi?
-I was much more comfortable with Next.js and wanted to create something using a trending stack, which was the MERN stack. Enimi was created on that stack to provide users with faster responses through its sleek UI. I learned a lot while creating Enimi and implemented production-ready features.
+## Why I Created BakaList?
+I was much more comfortable with Next.js and wanted to create something using a trending stack, which was the MERN stack. Enimi was created on that stack to provide users with faster responses through its sleek UI. I learned a lot while creating BakaList and implemented production-ready features.
 
 ## Features
 
@@ -78,43 +77,13 @@ JWT_SECRET=
 MONGODB_URI=
 ```
 
-## Installation
-
-- Clone repository.
-```bash
-git clone https://github.com/Zeddxx/enimi.git
-```
-  
-- Go into server directory and install its dependencies and run the server.
-  
-```bash
-cd server && npm install && npm run dev
-```
-
-- Response from backend.
-
-```bash
-Listening at http://localhost:4000
-```
-  
-- Go to client directory and do the same. (open another terminal)
-
-```bash
-cd client && npm install && npm run dev
-```
-
-- Response from client.
-
-```bash
-running at http://localhost:5173
-```
 
 ## Bugs And Features.
 If you want to request some new features or want to point out some bugs please do open a issue and i will see into it. otherwise you can fix or add those feat. and create a pull request.
 
 
 ## Author or Maintainer
-<a href="https://github.com/Zeddxx">Zeddxx</a>
+<a href="https://github.com/Anmolxrana">Anmolxrana</a>
 
 ### Footer
 Thankyou and please do give an star ⭐️ to motivate the developer.
