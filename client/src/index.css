@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 346.8 77.2% 49.8%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 0 0% 95%;
+    --card: 24 9.8% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 346.8 77.2% 49.8%;
+  }
+}
+
+
+html {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.anime_utils {
+  @apply text-xs font-medium border rounded px-3 py-1 border-muted;
+}
+
+.anime_card_cover {
+  @apply aspect-[12/18] w-40 rounded-sm shadow overflow-hidden mx-auto;
+}
+
+.info_banner_container {
+  @apply h-[50vw] max-h-96 right-0 opacity-55 w-full absolute top-0 -z-10 min-h-60 before:absolute before:bottom-0 before:w-full before:h-[75%] before:bg-gradient-to-t before:from-white before:dark:from-[#121212] before:via-white before:dark:via-[#121212] before:to-transparent;
+}
+
+.info_description {
+  @apply text-muted-foreground;
+}
+
+.sub_headings {
+  @apply text-pretty text-3xl font-semibold mt-7 mb-3;
+}
+
+.veritcal-text {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  text-orientation: use-glyph-orientation;
+  text-align: left;
+}
+
+.anime_card_wrapper {
+  @apply grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 sm:grid-cols-3 gap-4;
+}
+
+.anime_card_image_wrapper {
+  @apply h-full w-full rounded-md overflow-hidden block shadow relative;
+}
+
+.anime_card_image_wrapper > img {
+  @apply h-full w-full object-cover duration-300
+}
+
+.anime_card_hover {
+  @apply absolute -bottom-1/2 group-hover:bottom-1/2 duration-300 translate-y-1/2 left-1/2 -translate-x-1/2
+}
+
+.anime_card_title {
+  @apply hover:text-primary line-clamp-1 transition-colors duration-200
+}
+
+.error_msg_state {
+  @apply text-destructive bg-destructive/15 py-2 capitalize text-sm text-center w-full flex px-4 mt-2 rounded;
+}
+
+.page_heading {
+  @apply text-5xl font-semibold mt-6;
+}
+
+.page_wrapper {
+  @apply max-w-screen-2xl w-full mx-auto px-4;
+}
+.page_wrapper > p {
+  @apply text-muted-foreground mb-6;
+}
+
+.pagination_container {
+  @apply max-w-7xl mx-auto flex justify-center my-8 w-full px-4;
+}
+
+.user_avatar {
+  @apply h-10 w-10 shrink-0 rounded-full overflow-hidden bg-[#121212]
+}
