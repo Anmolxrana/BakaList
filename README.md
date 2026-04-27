@@ -28,7 +28,7 @@
 </p>
 
 ## Why I Created BakaList?
-I was much more comfortable with Next.js and wanted to create something using a trending stack, which was the MERN stack. Enimi was created on that stack to provide users with faster responses through its sleek UI. I learned a lot while creating BakaList and implemented production-ready features.
+I was much more comfortable with Next.js and wanted to create something using a trending stack, which was the MERN stack. BakaList was created on that stack to provide users with faster responses through its sleek UI. I learned a lot while creating BakaList and implemented production-ready features.
 
 ## Features
 
