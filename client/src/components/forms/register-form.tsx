@@ -80,7 +80,7 @@ const RegisterForm = () => {
           <Label className="font-normal text-base">
             Username
             <Input
-              placeholder="@enimi"
+              placeholder="@username"
               type="text"
               className="mt-2"
               {...register("username", { required: "username is required!" })}

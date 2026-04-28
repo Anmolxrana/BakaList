@@ -44,9 +44,9 @@ const Info = () => {
   return (
     <section className="relative w-full">
       <SEO
-        title={`${data.title.userPreferred} | Enimi`}
+        title={`${data.title.userPreferred} | BakaList`}
         description={data.description}
-        name="Enimi Anime Details"
+        name="BakaList Anime Details"
         type="webpage"
       />
       {/* Info Banner */}

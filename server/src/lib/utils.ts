@@ -29,7 +29,7 @@ export const sendEmailVerification = async (user: IUser, res: Response) => {
 
   const APP_URL =
     process.env.NODE_ENV === "production"
-      ? "https://enimi.onrender.com"
+      ? "https://BakaList.onrender.com"
       : "http://localhost:4000";
 
   const link = APP_URL + "/api/auth/verify/" + _id + "/" + token;
@@ -37,7 +37,7 @@ export const sendEmailVerification = async (user: IUser, res: Response) => {
   const mailOptions: SendMailOptions = {
     from: AUTH_EMAIL,
     to: email,
-    subject: "Enimi: Verify your email to watch anime on enimi.",
+    subject: "BakaList: Verify your email to watch anime on BakaList.",
     html: `<div
     style="
       position: relative;
@@ -56,7 +56,7 @@ export const sendEmailVerification = async (user: IUser, res: Response) => {
         object-fit: cover;
       "
       src="https://images.unsplash.com/photo-1530982011887-3cc11cc85693?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFubmVyJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D"
-      alt="enimi banner"
+      alt="BakaList banner"
     />
     <div
       style="
@@ -78,7 +78,7 @@ export const sendEmailVerification = async (user: IUser, res: Response) => {
     <hr />
     <h4 style="text-align: start">Hello! ${username}</h4>
     <p style="text-align: start; width: 100%">
-      Enimi wants a verification of your email so we can verify that its you!
+      BakaList wants a verification of your email so we can verify that its you!
       not someone else!
     </p>
     <p style="text-align: start;">
@@ -104,7 +104,7 @@ export const sendEmailVerification = async (user: IUser, res: Response) => {
     >
     <div style="margin-top: 20px;">
       <h4 style="font-family: inherit; font-weight: 500; line-height: normal; margin: 0;">Best regards</h5>
-      <h5 style="font-family: inherit; font-weight: 500; line-height: 2.5rem; margin: 0; color: #333333f5;">- Enimi (Anime Streaming Platform)</h5>
+      <h5 style="font-family: inherit; font-weight: 500; line-height: 2.5rem; margin: 0; color: #333333f5;">- BakaList (Anime Streaming Platform)</h5>
     </div>
   </div>`,
   };

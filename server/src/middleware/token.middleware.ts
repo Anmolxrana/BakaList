@@ -10,7 +10,7 @@ declare global {
 }
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies['enimi_auth'];
+    const token = req.cookies['BakaList_auth'];
 
     if(!token) {
         res.status(403).json({ message: "Access Denied!" })

@@ -3,7 +3,7 @@ import React from "react";
 // anime typpes imports.
 import { ISource } from "@/types/anime.types";
 
-// enimi player imports
+// BakaList player imports
 import Artplayer from "artplayer";
 import Player from "./player";
 import Option from "artplayer/types/option";
@@ -11,7 +11,7 @@ import Option from "artplayer/types/option";
 // player plugin imports
 import Hls from "hls.js";
 
-type EnimiPlayerProps = {
+type BakaListPlayerProps = {
   sources: ISource[];
   id: string
 };
@@ -19,7 +19,7 @@ type EnimiPlayerProps = {
 // to disable the version of artplayer displaying on console
 Artplayer.LOG_VERSION = false;
 
-const EnimiPlayer = ({ sources, id }: EnimiPlayerProps) => {
+const BakaListPlayer = ({ sources, id }: BakaListPlayerProps) => {
   // to store the url of the anime video quality.
   const [url, setUrl] = React.useState<string>("");
 
@@ -113,4 +113,4 @@ const EnimiPlayer = ({ sources, id }: EnimiPlayerProps) => {
     <Player option={options} className="-z-10 art-container aspect-video" />
   );
 };
-export default EnimiPlayer;
+export default BakaListPlayer;

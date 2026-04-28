@@ -14,7 +14,7 @@ const ThemeContext = React.createContext<InitialContextType>(initialContext);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = React.useState<string | undefined>(() => {
-    const storedTheme = localStorage.getItem("enimi");
+    const storedTheme = localStorage.getItem("BakaList");
 
     return storedTheme ? storedTheme : undefined;
   });
@@ -39,7 +39,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     systemDarkModeQuery.addEventListener("change", handleSystemThemeChange);
 
     // check if theme is in local storage or not!
-    const storedTheme = localStorage.getItem("enimi");
+    const storedTheme = localStorage.getItem("BakaList");
     if (storedTheme && storedTheme !== theme) {
       setTheme(storedTheme);
     }
@@ -71,7 +71,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleTheme = () => {
     setTheme((prevTheme) => {
       const newTheme = prevTheme === "dark" ? "light" : "dark";
-      localStorage.setItem("enimi", newTheme);
+      localStorage.setItem("BakaList", newTheme);
       return newTheme;
     });
   };

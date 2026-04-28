@@ -15,7 +15,7 @@ const Register = () => {
             Create an Account?
           </h1>
           <p className="text-muted-foreground text-sm">
-            Creating an account on enimi will open features such as (currently
+            Creating an account on BakaList will open features such as (currently
             watching etc.)
           </p>
 

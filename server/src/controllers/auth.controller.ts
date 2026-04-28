@@ -163,7 +163,7 @@ export const login = async (req: Request, res: Response) => {
       }
     );
 
-    res.cookie("enimi_auth", token, {
+    res.cookie("BakaList_auth", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 86400000,
@@ -178,7 +178,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
   try {
-    res.cookie("enimi_auth", "", {
+    res.cookie("BakaList_auth", "", {
       expires: new Date(0),
     });
     return res.send();

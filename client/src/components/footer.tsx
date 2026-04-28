@@ -7,18 +7,18 @@ const Footer = () => {
             <img
               src="/logo.gif"
               className="h-full w-full object-cover"
-              alt="enimi logo gif"
+              alt="BakaList logo gif"
             />
           </div>
-          <h6 className="text-primary text-4xl font-medium">enimi</h6>
+          <h6 className="text-primary text-4xl font-medium">BakaList</h6>
         </div>
 
         <div className="w-full">
             <p className="text-sm text-center text-muted-foreground">
-                enimi does not store any anime data and enimi is just created for learning purpose only and the intentions are just to show this project as a source of knowledge.
+                BakaList does not store any anime data and BakaList is just created for learning purpose only and the intentions are just to show this project as a source of knowledge.
             </p>
             <p className="text-sm text-center text-muted-foreground">
-                Any queries related to this project can be listen on <a className="text-primary underline underline-offset-2" href="https://github.com/Zeddxx/enimi" target="_blank">GitHub</a>
+                Any queries related to this project can be listen on <a className="text-primary underline underline-offset-2" href="https://github.com/Zeddxx/BakaList" target="_blank">GitHub</a>
             </p>
         </div>
 

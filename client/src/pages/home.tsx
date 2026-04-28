@@ -23,9 +23,9 @@ const Home = () => {
   return (
     <section>
       <SEO
-        title="Enimi | watch your favorite anime without any ads!"
-        description="A Minimalist enimi anime web streaming application created using MERN stack."
-        name="Enimi"
+        title="BakaList | watch your favorite anime without any ads!"
+        description="A Minimalist BakaList anime web streaming application created using MERN stack."
+        name="BakaList"
         type="webpage"
       />
       <AnimeCarousel animes={trending.results} />

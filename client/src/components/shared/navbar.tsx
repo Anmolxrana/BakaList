@@ -56,7 +56,7 @@ const Navbar = () => {
           <span className="h-8 w-8">
             <img
               src="/logo.gif"
-              alt="enimi logo"
+              alt="BakaList logo"
               className="h-full w-full object-cover"
             />
           </span>

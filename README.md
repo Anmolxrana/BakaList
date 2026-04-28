@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="/client/public/logo.gif" alt="enimi logo gif version" />
+  <img src="/client/public/logo.gif" alt="BakaList logo gif version" />
 </div>
 <h1 align="center">
-  Welcome to BakaLIst
+  Welcome to BakaList
 </h1>
 <p align="center">
   BakaList is an anime streaming platform created to watch anime without any ads and popups.

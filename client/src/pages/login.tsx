@@ -10,7 +10,7 @@ const Login = () => {
 
       <div className="h-full flex flex-col justify-between items-center w-full min-h-[calc(100dvh-80px)]">
         <div className="flex items-center justify-between w-full px-8">
-          <div className="text-lg text-primary font-semibold">Enimi</div>
+          <div className="text-lg text-primary font-semibold">BakaList</div>
 
           <div className=""></div>
         </div>

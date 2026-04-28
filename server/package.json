@@ -1,7 +1,7 @@
 {
-  "name": "enimi-server",
+  "name": "bakalist-server",
   "version": "1.0.0",
-  "description": "a backend for enimi streaming web application created using MERN Stack.",
+  "description": "a backend for bakalist streaming web application created using MERN Stack.",
   "main": "./src/server.ts",
   "scripts": {
     "dev": "nodemon",

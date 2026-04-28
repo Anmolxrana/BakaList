@@ -96,8 +96,8 @@ const Watch = () => {
   }, [episodeId, info, user]);
 
   // lazy importing the player to make the build light weight.
-  const EnimiPlayer = React.lazy(
-    () => import("@/components/players/enimi-player")
+  const BakaListPlayer = React.lazy(
+    () => import("@/components/players/BakaList-player")
   );
 
   if (isLoading || isInfoLoading) {
@@ -142,10 +142,10 @@ const Watch = () => {
           animeId={info?.id}
         />
 
-        {/* the enimi player! */}
+        {/* the BakaList player! */}
         <div className="flex-1 order-first 2xl:order-none">
           <React.Suspense fallback={<LoadingAnime />}>
-            <EnimiPlayer id={id} sources={data.sources} />
+            <BakaListPlayer id={id} sources={data.sources} />
           </React.Suspense>
 
           {/* button to next and prev episode! */}

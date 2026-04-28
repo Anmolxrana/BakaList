@@ -8,7 +8,7 @@ There are many ways to contribute to BakaList, and we value all contributions, b
 
 1. **Bug Reporting:** If you encounter a bug while using BakaList, please report it by opening an issue on GitHub. Include as much detail as possible to help us identify and resolve the issue.
 
-2. **Feature Requests:** Have an idea for a new feature or enhancement? Let us know by opening an issue on GitHub. We're always open to suggestions for improving Enimi.
+2. **Feature Requests:** Have an idea for a new feature or enhancement? Let us know by opening an issue on GitHub. We're always open to suggestions for improving BakaList.
 
 3. **Code Contributions:** If you're a developer, you can contribute directly to the codebase by forking the repository, making your changes, and submitting a pull request. Be sure to follow our coding standards and guidelines.
 
@@ -16,7 +16,7 @@ There are many ways to contribute to BakaList, and we value all contributions, b
 
 5. **Testing:** Help us ensure the quality of BakaList by testing new features, reporting bugs, and providing feedback. Your testing efforts help us deliver a more stable and reliable platform.
 
-6. **Translations:** If you're fluent in multiple languages, consider translating Enimi into other languages to make it accessible to more users around the world.
+6. **Translations:** If you're fluent in multiple languages, consider translating BakaList into other languages to make it accessible to more users around the world.
 
 ## Getting Started
 
@@ -34,7 +34,11 @@ If you're ready to contribute to BakaList, here's how you can get started:
 
 ## Code of Conduct
 
+<<<<<<< HEAD
 Please note that BakaList has a Code of Conduct, and we expect all contributors to adhere to it in all interactions related to the project. The Code of Conduct can be found [here]([https://github.com/Anmolxrana/BakaList]).
+=======
+Please note that BakaList has a Code of Conduct, and we expect all contributors to adhere to it in all interactions related to the project. The Code of Conduct can be found [here](https://github.com/Anmolxrana/BakaList).
+>>>>>>> 359a755 (fixed auth errors and setup backend)
 
 ## Help and Support
 
