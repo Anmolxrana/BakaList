@@ -54,7 +54,7 @@ const RegisterForm = () => {
       }).then(() => setCredentialSuccess(`Check your email ${values.email.slice(0,5)+'****'} and verify your account!`))
       form.reset();
     } catch (error) {
-      throw Error;
+      throw error;
     }
   });
 
@@ -65,12 +65,12 @@ const RegisterForm = () => {
     } catch (error) {
       if (isCustomError(error)) {
         setCredentialError((error as ExtendedError).data.message);
-        throw Error;
+        throw error;
       } else {
         console.error(error);
         setCredentialError("something went wrong!");
       }
-      throw Error;
+      throw error;
     }
   };
   return (

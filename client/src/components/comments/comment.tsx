@@ -50,7 +50,7 @@ const Comment = ({ comment }: Props) => {
       toggleLike({ commentId }).unwrap();
     } catch (error) {
       console.error(error);
-      throw Error;
+      throw error;
     }
   };
 
@@ -64,7 +64,7 @@ const Comment = ({ comment }: Props) => {
       });
     } catch (error) {
       console.error(error);
-      throw Error;
+      throw error;
     }
   };
 
@@ -74,7 +74,7 @@ const Comment = ({ comment }: Props) => {
       setReplyText("");
     } catch (error) {
       console.error(error);
-      throw Error;
+      throw error;
     }
   };
   return (

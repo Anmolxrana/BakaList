@@ -17,7 +17,7 @@ async function fetchPopularAnime({
     return data.results as IAnime[];
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 }
 
@@ -57,7 +57,7 @@ async function fetchTrendingAnime({
     return data.results as IAnime[];
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 }
 

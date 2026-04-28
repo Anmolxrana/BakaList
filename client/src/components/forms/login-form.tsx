@@ -59,8 +59,8 @@ const LoginForm = () => {
         error: "Something went wrong!",
       });
       form.reset();
-    } catch (error) {
-      throw Error;
+    } catch (error: unknown) {
+      throw error;
     }
   });
 
@@ -70,15 +70,15 @@ const LoginForm = () => {
       setCredentialError("");
       // if all good the navigate user back to the callback url.
       navigate(callbackUrl, { replace: true });
-    } catch (error) {
+    } catch (error: unknown) {
       if (isCustomError(error)) {
         setCredentialError((error as ExtendedError).data.message);
-        throw Error;
+        throw error;
       } else {
         console.error(error);
         setCredentialError("something went wrong!");
       }
-      throw Error;
+      throw error;
     }
   };
 

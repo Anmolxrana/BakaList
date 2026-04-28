@@ -50,7 +50,7 @@ const CommentForm = ({ animeId, title }: Props) => {
         .catch((err) => console.error(err));
     } catch (error) {
       console.error(error);
-      throw Error;
+      ;
     }
   });
 

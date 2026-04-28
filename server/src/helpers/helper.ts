@@ -1,5 +1,6 @@
 import axios from "axios";
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config();
 import {
   IAnime,
   IAnimeInfo,
@@ -28,7 +29,7 @@ export const getTrendingAnime = async (limit: number, page: number) => {
     return data as ITrending;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -43,7 +44,7 @@ export const getPopularAnime = async (limit: number, page: number) => {
     return data as ITrending;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -60,7 +61,7 @@ export const getAnimeInfoById = async (id: string) => {
     return data as IAnimeInfo;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -78,7 +79,7 @@ export const getAnimeEpisodesById = async (id: string) => {
     return data;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -97,7 +98,7 @@ export const getSearchedAnime = async (
     return data as ISearchedAnime;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -118,7 +119,7 @@ export const getAnimeEpisodesStream = async (id: string) => {
     return data;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -128,7 +129,7 @@ export const getAnimeRecommendationById = async (id: string) => {
     return data as IRecommendations;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -160,7 +161,7 @@ export const fetchRecentAnimes = async () => {
     return data as IRecentAnime;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -174,7 +175,7 @@ export const mergeAnilistIdFromTitle = async (title: string) => {
     return data.results as IAnime[];
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
 
@@ -186,6 +187,6 @@ export const getAnimeMovies = async (page: string) => {
     return data as IRecentAnime;
   } catch (error) {
     console.log(error);
-    throw Error;
+    throw error;
   }
 };
