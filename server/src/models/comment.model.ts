@@ -9,12 +9,11 @@ interface IReplySchema extends Document {
 interface ICommentSchema extends Document {
   author: mongoose.Types.ObjectId;
   comment: string;
-  _id?: string;
   replies: mongoose.Types.ObjectId[];
   likes: mongoose.Types.ObjectId[];
   animeId: string;
   toggleLike(userId: string): void;
-  isSpoiler: boolean
+  isSpoiler: boolean;
 }
 
 const replySchema = new mongoose.Schema<IReplySchema>(
