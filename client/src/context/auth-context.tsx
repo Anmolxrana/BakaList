@@ -19,10 +19,30 @@ const AuthContext = React.createContext<InitialContextType>(initialContext);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authState, setAuthState] =
     React.useState<InitialContextType>(initialContext);
-  const { isError } = useVerifyTokenQuery();
-  const { data, isLoading } = useCurrentUserQuery();
+
+  // ✅ CHECK TOKEN FIRST
+  const token = localStorage.getItem("token");
+
+  // ✅ ONLY CALL API IF TOKEN EXISTS
+  const { isError } = useVerifyTokenQuery(undefined, {
+    skip: !token,
+  });
+
+  const { data, isLoading } = useCurrentUserQuery(undefined, {
+    skip: !token,
+  });
 
   React.useEffect(() => {
+    // ✅ if no token → user is logged out
+    if (!token) {
+      setAuthState({
+        user: null,
+        isLoading: false,
+        isLoggedIn: false,
+      });
+      return;
+    }
+
     if (!isLoading) {
       setAuthState({
         user: data ?? null,
@@ -30,9 +50,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isLoggedIn: !isError,
       });
     }
-  }, [data, isError, isLoading]);
+  }, [data, isError, isLoading, token]);
+
   return (
-    <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authState}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

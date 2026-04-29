@@ -1,21 +1,26 @@
 import express, { type Request, type Response } from "express";
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import routes from "./routes/routes";
 import cookieParser from "cookie-parser";
 import path from "path";
-import { dbConnection } from "./connections";
+import dbConnection from "./connections";
+
+dbConnection();
 import { config } from "./cors/config";
 
 const app = express();
 
 dbConnection();
 
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-app.use(cors(config));
 
 app.use(routes());
 

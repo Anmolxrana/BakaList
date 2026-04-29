@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import {
   fetchRecentAnimes,
-  getAnimeEpisodesById,
   getAnimeEpisodesStream,
   getAnimeInfoById,
   getAnimeMovies,
@@ -9,130 +8,119 @@ import {
   getPopularAnime,
   getSearchedAnime,
   getTrendingAnime,
-  mergeAnilistIdFromTitle,
   scrapeEpisodes,
 } from "../helpers/helper";
 import axios from "axios";
 import { createAnimeId } from "../lib/utils";
 
-// /api/trending?page=&limit=
+/**
+ * TRENDING
+ */
 export const trending = async (req: Request, res: Response) => {
   try {
-    const { limit, page } = req.query;
-    const animeLimit = Number(limit) || 12;
-    const animePage = Number(page) || 1;
-    const anime = await getTrendingAnime(animeLimit, animePage);
+    const limit = Number(req.query.limit) || 12;
+    const page = Number(req.query.page) || 1;
 
-    if (!anime) {
-      return res.status(404).json({ message: "Not found!" });
+    const anime: any = await getTrendingAnime(limit, page);
+
+    if (!anime?.results) {
+      console.error("❌ TRENDING EMPTY:", anime);
+      return res.status(500).json({ message: "Trending failed" });
     }
 
-    const filterOutNotReleasedAnime = anime.results.filter(
-      (anime) =>
-        anime.status !== "NOT_YET_RELEASED" && anime.format !== "SPECIAL"
-    );
-
-    const trending = filterOutNotReleasedAnime.map((result) => {
-      const animeId = createAnimeId(
-        result.title.userPreferred,
-        result.title.english,
-        result.id
-      );
-
-      return { ...result, animeId: animeId };
-    });
+    const results = anime.results
+      .filter((a: any) => a?.title && a.status !== "NOT_YET_RELEASED")
+      .map((a: any) => ({
+        ...a,
+        animeId: createAnimeId(
+          a.title?.userPreferred,
+          a.title?.english,
+          a.id
+        ),
+      }));
 
     return res.status(200).json({
-      code: 200,
-      message: "success",
+      results,
       page: anime.page,
-      results: trending,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong!" });
+    console.error("🔥 TRENDING ERROR:", error);
+    return res.status(500).json({ message: "Trending failed" });
   }
 };
 
+/**
+ * POPULAR
+ */
 export const popular = async (req: Request, res: Response) => {
   try {
-    const { limit, page } = req.query;
-    const animeLimit = Number(limit) || 15;
-    const animePage = Number(page) || 1;
+    const limit = Number(req.query.limit) || 12;
+    const page = Number(req.query.page) || 1;
 
-    const anime = await getPopularAnime(animeLimit, animePage);
+    const anime: any = await getPopularAnime(limit, page);
 
-    if (!anime) {
-      return res.status(404).json({ message: "Not found!" });
+    if (!anime?.results) {
+      console.error("❌ POPULAR EMPTY:", anime);
+      return res.status(500).json({ message: "Popular failed" });
     }
 
-    const popular = anime.results.map((result) => {
-      const animeId = createAnimeId(
-        result.title.userPreferred,
-        result.title.english,
-        result.id
-      );
-      return { ...result, animeId: animeId };
-    });
+    const results = anime.results.map((a: any) => ({
+      ...a,
+      animeId: createAnimeId(
+        a.title?.userPreferred,
+        a.title?.english,
+        a.id
+      ),
+    }));
 
     return res.status(200).json({
-      code: 200,
-      message: "success",
+      results,
       page: anime.page,
-      results: popular,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong!" });
+    console.error("🔥 POPULAR ERROR:", error);
+    return res.status(500).json({ message: "Popular failed" });
   }
 };
 
+/**
+ * INFO
+ */
 export const info = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
 
     if (!id) {
-      return res.status(401).json({ message: "anime id must needed!" });
+      return res.status(400).json({ message: "Anime id required!" });
     }
 
-    const animeInfo = await getAnimeInfoById(id as string);
+    const animeInfo: any = await getAnimeInfoById(id as string);
 
     if (!animeInfo) {
-      return res.status(404).json({ message: "Info not found!" });
+      return res.status(404).json({ message: "Anime not found!" });
     }
 
     const animeId = createAnimeId(
-      animeInfo.title.userPreferred,
-      animeInfo.title.english,
+      animeInfo.title?.userPreferred,
+      animeInfo.title?.english,
       animeInfo.id
     );
 
-    if (!animeInfo.id_provider || !animeInfo.id_provider.idGogo) {
-      try {
-        // searching for the anime by title in consumet gogo provider.
-        const { data } = await axios.get(
-          (process.env.CONSUMET_URL as string) +
-            `/anime/gogoanime/${animeInfo.title.userPreferred}`
-        );
+    let episodes: any[] = [];
 
-        // catching the id of the first result that matches the title.
-        const animeGogoId = data.results[0].id;
+    if (animeInfo?.id_provider?.idGogo) {
+      episodes = await scrapeEpisodes(animeInfo.id_provider.idGogo);
+    } else {
+      const { data } = await axios.get(
+        `https://consumet-api.vercel.app/anime/gogoanime/${animeInfo.title?.userPreferred}`
+      );
 
-        // getting the episodes
-        const episodes = await scrapeEpisodes(animeGogoId);
+      const gogoId = data?.results?.[0]?.id;
 
-        // sending to the client
-        return res
-          .status(200)
-          .json({ ...animeInfo, animeId, anime_episodes: episodes.reverse() });
-      } catch (error) {
-        console.log(error);
-        return res.status(400).json({ message: "anime not found!" });
+      if (gogoId) {
+        episodes = await scrapeEpisodes(gogoId);
       }
     }
-
-    const episodes = await scrapeEpisodes(animeInfo.id_provider.idGogo);
-    // const episodes = await getAnimeEpisodesById(animeInfo.id);
 
     return res.status(200).json({
       ...animeInfo,
@@ -140,186 +128,142 @@ export const info = async (req: Request, res: Response) => {
       anime_episodes: episodes.reverse(),
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong!" });
+    console.error("🔥 INFO ERROR:", error);
+    return res.status(500).json({ message: "Failed to fetch info" });
   }
 };
 
+/**
+ * SEARCH
+ */
 export const searched = async (req: Request, res: Response) => {
   try {
-    const { query, page, limit } = req.query;
+    const { query } = req.query;
 
     if (!query) {
-      return res.status(400).json({ message: "Please provide a query!" });
+      return res.status(400).json({ message: "Query required!" });
     }
 
-    const q = query as string;
-    const p = Number(page) || 1;
-    const l = Number(limit) || 14;
+    const data: any = await getSearchedAnime(
+      query as string,
+      Number(req.query.page) || 1,
+      Number(req.query.limit) || 12
+    );
 
-    const searchAnime = await getSearchedAnime(q, p, l);
-
-    if (!searchAnime) {
-      return res.status(404).json({ message: "No searched query found!" });
+    if (!data?.results) {
+      return res.status(404).json({ message: "No results" });
     }
 
-    const anime = searchAnime.results.map((anime) => {
-      const animeId = createAnimeId(
-        anime.title.userPreferred,
-        anime.title.english,
-        anime.id
-      );
-      return { ...anime, animeId };
-    });
+    const results = data.results.map((a: any) => ({
+      ...a,
+      animeId: createAnimeId(
+        a.title?.userPreferred,
+        a.title?.english,
+        a.id
+      ),
+    }));
 
-    return res.status(200).json({
-      code: 200,
-      message: "success",
-      page: searchAnime.pageInfo,
-      results: anime,
-    });
+    return res.status(200).json({ results });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong!" });
+    console.error("🔥 SEARCH ERROR:", error);
+    return res.status(500).json({ message: "Search failed" });
   }
 };
 
-export const episode = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.query;
-    const animeId = id as string;
-
-    const animeEpisode = await getAnimeEpisodesById(animeId);
-
-    return res.status(200).json(animeEpisode);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong!" });
-  }
-};
-
+/**
+ * STREAM
+ */
 export const stream = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
 
-    if (!id) {
-      return res.status(400).json({ message: "Please provide a valid id!" });
+    const data = await getAnimeEpisodesStream(id as string);
+
+    if (!data) {
+      return res.status(404).json({ message: "Stream not found" });
     }
 
-    const streamingLinks = await getAnimeEpisodesStream(id as string);
-
-    if (!streamingLinks) {
-      return res.status(404).json({ message: "Not a streaming episode" });
-    }
-
-    return res.status(200).json(streamingLinks);
+    return res.status(200).json(data);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong!" });
+    console.error("🔥 STREAM ERROR:", error);
+    return res.status(500).json({ message: "Streaming failed" });
   }
 };
 
-export const recommendations = async (req: Request, res: Response) => {
+/**
+ * EPISODE
+ */
+export const episode = async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
 
     if (!id) {
-      return res.status(400).json({ message: "Invalid Id!" });
+      return res.status(400).json({ message: "Episode id required!" });
     }
 
-    const recommendations = await getAnimeRecommendationById(id as string);
+    const data = await scrapeEpisodes(id as string);
 
-    const animes = recommendations.results.map((anime) => {
-      const animeId = createAnimeId(
-        anime.title.userPreferred,
-        anime.title.english,
-        anime.id
-      );
-      return { ...anime, animeId };
-    });
-
-    return res.status(200).json({ results: animes });
-  } catch (error) {}
-};
-
-export const recents = async (req: Request, res: Response) => {
-  try {
-    const recentsAnimeWithoutAnilistId = await fetchRecentAnimes();
-
-    if (!recentsAnimeWithoutAnilistId) {
-      return res.status(400).json({ message: "no recent anime found!" });
-    }
-
-    const promises = recentsAnimeWithoutAnilistId.results.map(async (anime) => {
-      try {
-        const anilistSearch = await mergeAnilistIdFromTitle(anime.title);
-
-        if (!anilistSearch) return null;
-        const anilistId = anilistSearch[0].id;
-        const animeId = anime.id + "-" + anilistId;
-        return { ...anime, animeId, anilistId };
-      } catch (error) {
-        console.error("Error merging Anilist ID:", error);
-        return null;
-      }
-    });
-
-    const mergedAnimeData = await Promise.all(promises);
-
-    // Filter out null values (errors)
-    const validMergedAnimeData = mergedAnimeData.filter(
-      (anime) => anime !== null
-    );
-
-    return res.status(200).json(validMergedAnimeData);
+    return res.status(200).json(data);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "something went wrong!" });
+    console.error("EPISODE ERROR:", error);
+    return res.status(500).json({ message: "Failed to fetch episodes" });
   }
 };
 
+/**
+ * RECOMMENDATIONS
+ */
+export const recommendations = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.query;
+
+    const data: any = await getAnimeRecommendationById(id as string);
+
+    if (!data?.results) {
+      return res.status(404).json({ message: "No recommendations found" });
+    }
+
+    return res.status(200).json(data.results);
+  } catch (error) {
+    console.error("RECOMMEND ERROR:", error);
+    return res.status(500).json({ message: "Failed to fetch recommendations" });
+  }
+};
+
+/**
+ * RECENTS
+ */
+export const recents = async (_req: Request, res: Response) => {
+  try {
+    const data: any = await fetchRecentAnimes();
+
+    if (!data?.results) {
+      return res.status(404).json({ message: "No recents found" });
+    }
+
+    return res.status(200).json(data.results);
+  } catch (error) {
+    console.error("RECENTS ERROR:", error);
+    return res.status(500).json({ message: "Failed to fetch recents" });
+  }
+};
+
+/**
+ * MOVIES
+ */
 export const movies = async (req: Request, res: Response) => {
   try {
     const { page } = req.query;
 
-    const moviesWithoutAnilistId = await getAnimeMovies((page as string) ?? 1);
+    const data: any = await getAnimeMovies((page as string) || "1");
 
-    if (!moviesWithoutAnilistId) {
-      res.status(400).json({ message: "cant find movies." });
-      return;
+    if (!data?.results) {
+      return res.status(404).json({ message: "No movies found" });
     }
 
-    const promises = moviesWithoutAnilistId.results.map(async (anime) => {
-      try {
-        const movies = await mergeAnilistIdFromTitle(anime.title);
-
-        if (!movies) return null;
-
-        const anilistId = movies[0].id;
-
-        const animeId = anime.id + "-" + anilistId;
-        return {
-          ...anime,
-          animeId,
-          anilistId,
-          title: movies[0].title,
-          cover: movies[0].cover,
-          image: movies[0].image,
-        };
-      } catch (error) {
-        return null;
-      }
-    });
-
-    const mergedAnimeData = await Promise.all(promises);
-
-    const validMergedAnimeData = mergedAnimeData.filter(
-      (anime) => anime !== null
-    );
-
-    return res.status(200).json(validMergedAnimeData);
+    return res.status(200).json(data.results);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Something went wrong!" });
+    console.error("MOVIES ERROR:", error);
+    return res.status(500).json({ message: "Failed to fetch movies" });
   }
 };

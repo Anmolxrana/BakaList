@@ -12,6 +12,7 @@ export const auth = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
+    credentials: "include",
   }),
   tagTypes: [
     "current-user",

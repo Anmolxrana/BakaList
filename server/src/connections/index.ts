@@ -1,15 +1,20 @@
 import mongoose from "mongoose";
 
-const { MONGODB_URI } = process.env;
-
-export function dbConnection() {
+const dbConnection = async () => {
   try {
-    if (!MONGODB_URI) {
-      console.error("mongodb uri missing!");
+    const uri = process.env.MONGO_URI;
+
+    if (!uri) {
+      throw new Error("MONGO_URI is missing in .env");
     }
-    mongoose.connect(MONGODB_URI as string);
+
+    await mongoose.connect(uri);
+
     console.log("mongodb connection established!");
   } catch (error) {
-    console.log("database connection error!", error);
+    console.error("DB connection error:", error);
+    process.exit(1);
   }
-}
+};
+
+export default dbConnection;

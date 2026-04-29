@@ -8,17 +8,9 @@ import { FormProvider, useForm } from "react-hook-form";
 // shadcn components imports...
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 
 // rtk mutations...
 import { useRegisterMutation } from "@/redux/auth";
-
-// utlities functions...
-import { isCustomError } from "@/lib/utils";
-
-// types imports...
-import { ExtendedError } from "@/types/more.types";
-
 
 // interface for registering a user.
 interface IRegister {
@@ -46,33 +38,24 @@ const RegisterForm = () => {
 
   // onSubmit handler
   const onSubmit = handleSubmit(async (values: IRegister) => {
-    try {
-      toast.promise(handleRegister(values), {
-        loading: "Creating account...",
-        success: "Account created successfully!. Check your email to verify.",
-        error: "Something went wrong!",
-      }).then(() => setCredentialSuccess(`Check your email ${values.email.slice(0,5)+'****'} and verify your account!`))
-      form.reset();
-    } catch (error) {
-      throw error;
-    }
-  });
+  console.log("FORM SUBMITTED", values);
+
+  try {
+    await handleRegister(values);
+    toast.success("Account created!");
+  } catch (error: any) {
+    console.log("REGISTER ERROR:", error);
+    toast.error(error?.data?.message || "Something went wrong!");
+  }
+});
 
   const handleRegister = async (values: IRegister) => {
-    try {
-      await registerUser(values).unwrap();
-      form.reset();
-    } catch (error) {
-      if (isCustomError(error)) {
-        setCredentialError((error as ExtendedError).data.message);
-        throw error;
-      } else {
-        console.error(error);
-        setCredentialError("something went wrong!");
-      }
-      throw error;
-    }
-  };
+  console.log("CALLING MUTATION...");
+
+  const res = await registerUser(values).unwrap();
+
+  console.log("RESPONSE:", res);
+};
   return (
     <FormProvider {...form}>
       <form onSubmit={onSubmit} className="space-y-3">
@@ -142,14 +125,13 @@ const RegisterForm = () => {
           </span>
         )}
 
-        <Button
-          isLoading={isLoading}
-          disabled={isLoading}
-          className="w-full"
+        <button
           type="submit"
+          disabled={isLoading}
+          className="w-full bg-red-500 text-white py-2 rounded"
         >
-          {isLoading ? "Creating..." : "Register"}
-        </Button>
+         {isLoading ? "Creating..." : "Register"}
+        </button>
       </form>
     </FormProvider>
   );

@@ -1,7 +1,7 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 interface IReplySchema extends Document {
-  author: Schema.Types.ObjectId;
+  author: mongoose.Types.ObjectId;
   comment: string;
   createdAt?: Date;
 }
@@ -69,9 +69,14 @@ const CommentSchema = new Schema<ICommentSchema>(
 );
 
 CommentSchema.methods.toggleLike = function (userId: string): void {
-  const index = this.likes.indexOf(userId);
+  const userObjectId = new mongoose.Types.ObjectId(userId);
+
+  const index = this.likes.findIndex((id: mongoose.Types.ObjectId) =>
+    id.equals(userObjectId)
+  );
+
   if (index === -1) {
-    this.likes.push(userId);
+    this.likes.push(userObjectId);
   } else {
     this.likes.splice(index, 1);
   }

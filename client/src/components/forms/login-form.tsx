@@ -51,18 +51,28 @@ const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   // onSubmit handler!
-  const onSubmit = handleSubmit(async (values: ILogin) => {
-    try {
-      toast.promise(handleLogin(values), {
-        loading: "Logging in...",
-        success: "logged in successfully!",
-        error: "Something went wrong!",
-      });
-      form.reset();
-    } catch (error: unknown) {
-      throw error;
-    }
-  });
+const onSubmit = handleSubmit(async (values: ILogin) => {
+  console.log("LOGIN SUBMITTED", values);
+
+  try {
+    const res = await login(values).unwrap(); // 👈 call mutation directly
+
+    console.log("LOGIN SUCCESS:", res);
+
+    toast.success("Logged in successfully!");
+    setCredentialError("");
+
+    navigate(callbackUrl, { replace: true });
+
+  } catch (error: any) {
+    console.log("LOGIN ERROR:", error);
+
+    const msg = error?.data?.message || "Something went wrong!";
+    setCredentialError(msg);
+
+    toast.error(msg);
+  }
+});
 
   const handleLogin = async (values: ILogin) => {
     try {
