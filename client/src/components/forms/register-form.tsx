@@ -1,5 +1,4 @@
 // react imports...
-import React from "react";
 import toast from "react-hot-toast";
 
 // react hook form imports...
@@ -22,9 +21,6 @@ interface IRegister {
 const RegisterForm = () => {
   const form = useForm<IRegister>();
 
-  // state to store the error and success message getting back from the backend.
-  const [credentialError, setCredentialError] = React.useState<string>("");
-  const [credentialSuccess, setCredentialSuccess] = React.useState<string>("");
 
   // register user mutations.
   const [registerUser, { isLoading }] = useRegisterMutation();
@@ -112,18 +108,6 @@ const RegisterForm = () => {
             )}
           </Label>
         </div>
-
-        {credentialSuccess && (
-          <span className="p-2 text-center text-green-500 bg-green-200 block">
-            {credentialSuccess}
-          </span>
-        )}
-
-        {credentialError && (
-          <span className="py-2 text-center block bg-destructive/20 px-2 text-destructive">
-            ⚠️ {credentialError}
-          </span>
-        )}
 
         <button
           type="submit"

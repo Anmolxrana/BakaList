@@ -14,12 +14,6 @@ import { Button } from "@/components/ui/button";
 // rtk mutations import...
 import { useLoginMutation } from "@/redux/auth";
 
-// utility functions imports...
-import { isCustomError } from "@/lib/utils";
-
-// types imports...
-import { ExtendedError } from "@/types/more.types";
-
 
 // interface types for login user
 interface ILogin {
@@ -73,24 +67,6 @@ const onSubmit = handleSubmit(async (values: ILogin) => {
     toast.error(msg);
   }
 });
-
-  const handleLogin = async (values: ILogin) => {
-    try {
-      await login(values).unwrap();
-      setCredentialError("");
-      // if all good the navigate user back to the callback url.
-      navigate(callbackUrl, { replace: true });
-    } catch (error: unknown) {
-      if (isCustomError(error)) {
-        setCredentialError((error as ExtendedError).data.message);
-        throw error;
-      } else {
-        console.error(error);
-        setCredentialError("something went wrong!");
-      }
-      throw error;
-    }
-  };
 
   return (
     <FormProvider {...form}>
